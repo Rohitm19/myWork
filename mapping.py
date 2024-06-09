@@ -36,3 +36,8 @@ def match_schools_batched_fuzzy(school_list_A, school_list_B, batch_size=1000):
             matches.append((school_a['school_id'], matched_school_b['school_id']))
     
     return matches
+
+# Break down school_list_A into smaller batches
+batch_size = 1000
+num_batches = len(school_list_A) // batch_size + 1
+all_matches = []
