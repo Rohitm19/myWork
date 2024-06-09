@@ -41,3 +41,17 @@ def match_schools_batched_fuzzy(school_list_A, school_list_B, batch_size=1000):
 batch_size = 1000
 num_batches = len(school_list_A) // batch_size + 1
 all_matches = []
+
+for i in range(num_batches):
+    batch_start = i * batch_size
+    batch_end = min((i + 1) * batch_size, len(school_list_A))
+    batch_a = school_list_A.iloc[batch_start:batch_end]
+    batch_matches = match_schools_batched_fuzzy(batch_a, school_list_B)
+    all_matches.extend(batch_matches)
+
+# Create a DataFrame for the matched results
+matched_df = pd.DataFrame(all_matches, columns=['school_id_a', 'school_id_b'])
+matched_df.to_csv('matched_schools.csv', index=False)
+
+# Display the first few rows of the matched results
+print(matched_df.head())
